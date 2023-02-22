@@ -28,8 +28,8 @@ function app(people) {
         case "yes":
             searchResults = searchByName(people);
             let criteria = prompt('Separate multiple criteria by a semicolon (no spaces around semicolon).\n',
-            'Can also seclect "restart" or "quit."\n',
-            ('example one criteria - eyecolor brown\n'),
+            'Can also seclect "restart" or "quit."\n'
+            ('example one criteria - eyecolor brown\n')
             ('example multiple criteria - eyecolor brown:gender female'))
             
             console.log('no' + criteria)
@@ -39,8 +39,24 @@ function app(people) {
                 //! TODO #4a: Provide option to search for single or multiple //////////////////////////////////////////
                 // single = searchBymultipleTraits;
 
-    
-            // console.log(searchByTraits(people));
+            function searchByTraits(single, multiple){
+            
+                
+                searchByName(people).filter(function(people){
+                    (people.searchByTraits === searchByName)
+                            return single * multiple;
+                            
+                        }
+                        // else{
+                            // }
+                            )
+                            return searchResults;
+
+                }
+                
+                
+            let people = searchByTraits(people);
+            console.log(searchByTraits(people));
         default:
             // Re-initializes the app() if neither case was hit above. This is an instance of recursion.
             app(people);
@@ -83,8 +99,11 @@ function mainMenu(person, people) {
         case "info":
             //! TODO #1: Utilize the displayPerson function //////////////////////////////////////////
             // HINT: Look for a person-object stringifier utility function to help
-                                                        
-          
+            function displayPerson(person){
+                const personInfo = {FirstName: 'Billy', Last_Name: 'Bob' };
+                const persons = JSON.stringify(personInfo);
+                localStorage.setItem('Billy', personInfo);
+            }
             let personInfo = displayPerson(person[0]);
             alert(personInfo);
             break;
@@ -163,13 +182,8 @@ function displayPerson(person) {
     let personInfo = `First Name: ${person.firstName}\n`;
     personInfo += `Last Name: ${person.lastName}\n`;
     //! TODO #1a: finish getting the rest of the information to display //////////////////////////////////////////
-
-
-
-
-
-    return results;
     alert(personInfo);
+    return results;
 }
 // End of displayPerson()
 
@@ -183,7 +197,7 @@ function displayPerson(person) {
  */
 function promptFor(question, valid) {
     do {
-        var response = prompt(question.trim());
+        var response = prompt(question).trim();
     } while (!response || !valid(response));
     return response;
 }
@@ -212,4 +226,3 @@ function chars(input) {
 
 //////////////////////////////////////////* End Of Starter Code *//////////////////////////////////////////
 // Any additional functions can be written below this line 👇. Happy Coding! 😁
-
