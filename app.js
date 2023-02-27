@@ -27,33 +27,19 @@ function app(people) {
     switch (searchType) {
         case "yes":
             searchResults = searchByName(people);
-            let criteria = prompt('Separate multiple criteria by a semicolon (no spaces around semicolon).\n',
-            'Can also seclect "restart" or "quit."\n',
-            ('example one criteria - eyecolor brown\n'),
-            ('example multiple criteria - eyecolor brown:gender female'))
-            
-            console.log('no' + criteria)
             break;
         case "no":
             //! TODO #4: Declare a searchByTraits (multiple traits) function //////////////////////////////////////////
                 //! TODO #4a: Provide option to search for single or multiple //////////////////////////////////////////
-                // single = searchBymultipleTraits;
-
-    
+            single = searchByTraits(people);
+            break;
+        default:
             // console.log(searchByTraits(people));
         default:
             // Re-initializes the app() if neither case was hit above. This is an instance of recursion.
             app(people);
-            let result = 0
-            let count = 0
-
-            while (result != 5) {
-                result = Math.floor(Math.random() * (10 -1 +1) +1);
-            count++;            
-        }
-        console.log('The random result: ${result}');
-        console.log('how many times random is executed: ${count}');       
-            
+            break;
+ 
     }      
     // Calls the mainMenu() only AFTER we find the SINGLE PERSON
     mainMenu(searchResults, people);
@@ -83,27 +69,28 @@ function mainMenu(person, people) {
         case "info":
             //! TODO #1: Utilize the displayPerson function //////////////////////////////////////////
             // HINT: Look for a person-object stringifier utility function to help
-                                                        
-          
             let personInfo = displayPerson(person[0]);
             alert(personInfo);
             break;
         case "family":
+                                                        
+          
             //! TODO #2: Declare a findPersonFamily function //////////////////////////////////////////
             // HINT: Look for a people-collection stringifier utility function to help
-            const peopleCollection = [data];
-            const people = JSON.stringify(peopleCollection); 
-            
-            let personFamily = findPersonFamily(person[0], people);
-            alert(personFamily);
+           let personFamily = findPersonFamily(person[0], people);
+           alert(personFamily);
             break;
         case "descendants":
+
+
             //! TODO #3: Declare a findPersonDescendants function //////////////////////////////////////////
             // HINT: Review recursion lecture + demo for bonus user story
             let personDescendants = findPersonDescendants(person[0], people);
             alert(personDescendants);
             break;
         case "restart":
+
+
             // Restart app() from the very beginning
             app(people);
             break;
@@ -163,14 +150,15 @@ function displayPerson(person) {
     let personInfo = `First Name: ${person.firstName}\n`;
     personInfo += `Last Name: ${person.lastName}\n`;
     //! TODO #1a: finish getting the rest of the information to display //////////////////////////////////////////
-
-
-
-
-
-    return results;
-    alert(personInfo);
+    personInfo =+ `Gender: ${person.gender}\n`;
+    personInfo =+ `Date of Birth: ${person.dob}\n`;
+    personInfo =+ `Height: ${person.height}\n`;
+    personInfo =+ `Weight: ${person.weight}\n`;
+    personInfo =+ `Eye Color: ${person.eyeColor}\n`
+    personInfo =+ `Occupation: ${person.occupation}\n`;
+    return personInfo;
 }
+
 // End of displayPerson()
 
 /**
@@ -183,7 +171,7 @@ function displayPerson(person) {
  */
 function promptFor(question, valid) {
     do {
-        var response = prompt(question.trim());
+        var response = prompt(question).trim();
     } while (!response || !valid(response));
     return response;
 }
@@ -213,3 +201,88 @@ function chars(input) {
 //////////////////////////////////////////* End Of Starter Code *//////////////////////////////////////////
 // Any additional functions can be written below this line 👇. Happy Coding! 😁
 
+
+/**
+ * Help function
+ * @param {Array} people             A string 
+ *  @return {Array}
+ */
+function searchByTraits(people) {
+    let gender = promptFor("What is the person's gender?", validationGender);
+    let dob = promptFor("What is the person's birthday?", validationDOB);
+    let height = promptFor("How tall is the person?", validatinNumber);
+    let weight = promptFor(" How much does the person weight?", vaildationNumber);
+    let eyeColor = promptFor(" What is the person's ete color?", validationEyeColor);
+    let occupation = promptFor("What is the person's occupation?", chars);
+    let result = people
+    .filter(each => each.gender == gender
+        && each.dob == dob
+        && each.height == height
+        && each.weight == weight
+        && each.eyeColor == eyeColor
+        && each.occupation == occupation);
+    return result;
+}
+
+
+/**
+ * Helper function
+ *  @param {Object} person
+ *  @param {Array} people
+ */
+function findPersonDescendants(person, people) {
+    let descendants = people.filter(descendants => descendants.parents.includes(person.id))
+    let descendantInfo = '';
+    descendants.forEach(descendant => descendantInfo += `${descendant.FirstName} ${descendant.lastName}\n`)
+    return descendantInfo ? descendantInfo : 'None';
+}
+
+/**
+ * Helper function validate's user's input for person's gender
+ *  @param {String} input       A string
+ *  @returns {Boolean}
+ */
+function validationDOB(birthday){
+    if (!/^\d|\d{2}\/\d|\d{2}\/\d{4}$/g.test(birthday)) {
+        alert("Invalid Date Format")
+        return false
+    }
+    let parts = birthaday.split('/');
+    let now = new Date();
+    let month = parseInt(parts[0], 10);
+    let day = parseInt(parts[1], 10);
+    let year = parseInt(parts[2], 10);
+    let currentYear = now.getFullYear();
+
+    if (year >= currentYear) {
+        alert("Invalid Date Format")
+        return false;
+    }
+    if (month < 1 || month > 12) {
+    alert("Invalid Date Format")
+    return false;
+    }
+    if  (day < 1 || day > 31) {
+        alert("Invalid Date Format")
+        return false;
+    }
+
+
+    return true;
+
+}   
+// End of validationDOB()
+
+/**
+ * Helper function validate user's input for person's eye color
+ *  @param {String} eyeColor            A string.
+ *  @returns {Boolean}
+ */
+function validationEyeColor(eyeColor){
+    if (eyeColor.trim() === 'brown',  'blue', 'hazel', 'green' ) {
+        return true
+    }
+    alert("Please input correct eye color")
+    return false;
+}
+// End 
