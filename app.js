@@ -29,17 +29,15 @@ function app(people) {
             searchResults = searchByName(people);
             break;
         case "no":
+            
             //! TODO #4: Declare a searchByTraits (multiple traits) function //////////////////////////////////////////
                 //! TODO #4a: Provide option to search for single or multiple //////////////////////////////////////////
-            single = searchByTraits(people);
+            searchResults = searchByTraits(people);
             break;
         default:
-            // console.log(searchByTraits(people));
-        default:
-            // Re-initializes the app() if neither case was hit above. This is an instance of recursion.
+           // Re-initializes the app() if neither case was hit above. This is an instance of recursion.
             app(people);
             break;
- 
     }      
     // Calls the mainMenu() only AFTER we find the SINGLE PERSON
     mainMenu(searchResults, people);
@@ -89,9 +87,7 @@ function mainMenu(person, people) {
             alert(personDescendants);
             break;
         case "restart":
-
-
-            // Restart app() from the very beginning
+             // Restart app() from the very beginning
             app(people);
             break;
         case "quit":
